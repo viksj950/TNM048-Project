@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<title>IMDB Top Rated Movies Viz</title>
+<link rel="icon"  type="image/png"  href="/images/imdb_logo.png" />
+<meta name="description" content="Our first page">
+<meta name="keywords" content="html tutorial template">
+<script src="https://d3js.org/d3.v6.min.js"></script> <!-- Fetches the newest D3 version-->
+<link rel="stylesheet" href="libs/css/index.css">
+</head>
+<body>
+    
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/scatterPlot.js"></script>
+    <script src="./scripts/searchBar.js"></script>
+
+
+<div id="SPandSearch">
+    <div id="scatterPlot">
+    </div> 
+    <div id="searchBar">Placeholder
+       <!-- <input type="text" id="search_input" onkeyup ="search_function()" placeholder="Skriv någe rå">-->
+        <ul id="actor_list_search">
+            <li>Björn</li>
+            <li>Knut</li>
+
+        </ul>
+
+
+
+    </div>
+</div>
+
+<div id="moviePoster"><img src="images/imdb_logo.png" style="width:128px; height:128px;" >
+    <input id="clickMe" type="button" value="lickme" onclick="moviePosterChange();" />
+</div>
+
+
+</body>
+</html>
