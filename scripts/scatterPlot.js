@@ -9,18 +9,11 @@ function createScatterPlot(data) {
     var yAxisMargin = 0.1;
 
     //Some components copied, but most inspired from https://rajvansia.com/scatterplotbrush-d3-v4.html and Lab 1 and mainly our own wits (or rather lack thereof)
-    var focusMargin = { top: 20, right: 20, bottom: 110, left: 50 }, //{top: 60, right: 60, bottom: 200, left: 80},
-        contextMargin = { top: 430, right: 30, bottom: 30, left: 50 }, //{top: 350, right: 60, bottom: 60, left: 80},
-        width = 1200 - focusMargin.left - focusMargin.right,
+    var focusMargin = { top: 20, right: 20, bottom: 110, left: 50 },
+        contextMargin = { top: 430, right: 30, bottom: 30, left: 50 },
+        width = 1400 - focusMargin.left - focusMargin.right,
         focusHeight = 500 - focusMargin.top - focusMargin.bottom,
         contextHeight = 500 - contextMargin.top - contextMargin.bottom;
-
-    //Copied fully from https://rajvansia.com/scatterplotbrush-d3-v4.html
-    // var margin = {top: 20, right: 20, bottom: 110, left: 50},
-    // margin2 = {top: 430, right: 20, bottom: 30, left: 40},
-    // width = 960 - margin.left - margin.right,
-    // height = 500 - margin.top - margin.bottom,
-    // height2 = 500 - margin2.top - margin2.bottom;
 
     //---------- Crate X-axis for focus + context plots (Year) ----------
 
@@ -41,18 +34,12 @@ function createScatterPlot(data) {
 
     var xContextAxis = d3.axisBottom(xContextScale);
 
-    // //Groups objects together
-    // svg.append("g") //'g' element is defined for graphical objects
-    //     .attr("transform", "translate(0 , " + focusHeight + ")") //Not sure if we need this
-    //     .call(d3.axisBottom(xFocusAxis));
-
     var brush = d3.brushX()
         .extent([[0, 0], [width, contextHeight]]) //min and max values for the brush
         .on("brush end", brushed); //brush end specifies that only when brush is released it updates the scale?
 
 
     //---------- Crate Y-axis for focus plot (IMDB-rating) ----------
-
 
     var minMaxRating = findMinMax(data, "IMDB_Rating"); //Fetches the min max value of year for all data
     var yFocusScale = d3.scaleLinear()
@@ -67,12 +54,8 @@ function createScatterPlot(data) {
         .range([contextHeight, 0])
         .domain(yFocusScale.domain());
 
-    //Groups objects together
-    // svg.append("g")
-    //  .call(d3.axisLeft(yFocusAxis));
-
     // append the svg object to the div #scatterPlot which contains the SP elements of the page
-    var svg = d3.select("#SPandSearch").append("svg")
+    var svg = d3.select("#scatterPlot").append("svg")
         .attr("position", "relative")
         .attr("width", width + focusMargin.left + focusMargin.right)
         .attr("height", focusHeight + focusMargin.top + focusMargin.bottom);
@@ -91,8 +74,9 @@ function createScatterPlot(data) {
         .attr("width", width)
         .attr("height", focusHeight);
 
-    //---------- Crate tooltip for the scatterplot ----------
-    var hoverTooltip = d3.select("#SPandSearch")
+    //---------- Create tooltip for the scatterplot ----------
+
+    var hoverTooltip = d3.select("#scatterPlot")
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0)
@@ -104,22 +88,45 @@ function createScatterPlot(data) {
 
     var mouseover = function (d, data) {
         hoverTooltip.style("opacity", 1) //set to full visibility
-        findOverlappingMovies(data, d.IMDB_Rating, d.Released_Year);
-        
+
+        return findMovies(data, d.IMDB_Rating, d.Released_Year);
     }
 
-    var mousemove = function (d) {
-        hoverTooltip.html(d.Series_Title)  //fetches name of movie(s)
-            .style("left", (d3.mouse(this)[0] + 70) + "px")
-            .style("top", (d3.mouse(this)[1]) + "px")
-        d3.select(this).attr('r', 10)
-        
+    var mousemove = function (d, data) { //, overlappingMovies
+
+        var toolTipText = "";
+
+        if(data.length == 1) {
+            toolTipText = data[0].Series_Title;
+        }
+        else {
+            toolTipText = "Movies: " + data.length;
+        }
+
+        hoverTooltip.html(toolTipText)  //fetches name of movie(s)
+            .style("left", (d3.mouse(d3.event.currentTarget)[0] + 70) + "px") //d3.mouse(this) does not work, because "this" is an instance
+            .style("top", (d3.mouse(d3.event.currentTarget)[1]) + "px")
+        d3.select(d3.event.currentTarget).attr('r', 10);
     }
 
     var mouseleave = function (d) {
         hoverTooltip.html("")
-        d3.select(this).attr('r', 5)
+        d3.select(d3.event.currentTarget).attr('r', 5)
         hoverTooltip.style("opacity", 0) //make invisible
+    }
+
+    var clicked = function (d, data) {
+        // Updates displayed movies in info div
+        document.getElementById("infoPlaceholder").innerHTML = ""; //Clears placeholder text
+        displayMovieInfo(data);
+        
+        d3.select("#lollipop").remove();
+        document.getElementById("lolli").innerHTML = "";
+        addLoliData(data);
+        createLollipop(loliData);   //Currently global variables
+        
+        d3.select(d3.event.currentTarget).attr('r', 10)
+        d3.select(d3.event.currentTarget).attr("fill", "red")
     }
 
     //---------- Crate dots from the data ----------
@@ -136,9 +143,10 @@ function createScatterPlot(data) {
         .style("opacity", .25)
         .attr("cx", function (d) { return xFocusScale(d.Released_Year); })
         .attr("cy", function (d) { return yFocusScale(d.IMDB_Rating); })
-        .on("mouseover", function (d) { return mouseover(d, data);})
-        .on("mousemove", mousemove)
+        .on("mouseover", function (d) { activeMovies = mouseover(d, data); return activeMovies}) //{ overlappingMovies = mouseover(d, data); return overlappingMovies}
+        .on("mousemove", function (d) { return mousemove(d, activeMovies);})
         .on("mouseleave", mouseleave)
+        .on("click", function (d) { return clicked(d, activeMovies);});
 
     focus.append("g") 
         .attr("class", "axis axis--x")
@@ -165,7 +173,6 @@ function createScatterPlot(data) {
         .text("Year");
 
     //Append scatter plot to the brush context area 
-
     var contextDots = context.append("g");
     contextDots.attr("clip-path", "url(#clip)"); //from lab
     contextDots.selectAll("dot")
@@ -223,15 +230,16 @@ function findMinMax(data, column_name) {
     return temp;
 }
 //Function that returns all the movies corresponding to the same year and same rating
-function findOverlappingMovies(data, rating, year) { 
-    var it1 = 0;
-    var it2 = 0;
+function findMovies(data, rating, year) { 
+    var overlappingMovies = [];
+    var it = 0;
+
     for(var i = 0; i < data.length; i++) {
-        it2++;
         if(data[i].IMDB_Rating == rating && data[i].Released_Year == year) {
-            it1++;
-            console.log("Movie title = " + data[i].Series_Title);
+            overlappingMovies[it] = data[i];
+            it++;
         }
     }
-    console.log("Mutiple movies = " + it1);
+
+    return overlappingMovies;
 }

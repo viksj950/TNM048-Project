@@ -1,44 +1,58 @@
 <!doctype html>
 <html>
+
 <head>
-<title>IMDB Top Rated Movies Viz</title>
-<link rel="icon"  type="image/png"  href="/images/imdb_logo.png" />
-<meta name="description" content="Our first page">
-<meta name="keywords" content="html tutorial template">
-<script src="https://d3js.org/d3.v5.min.js"></script> <!-- Fetches the newest D3 version V6 GIVES ERRROR WE NOW USE V5--> 
-<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script> <!-- for the circ bar chart-->
-<link rel="stylesheet" href="libs/css/index.css">
+    <title>IMDB Top Rated Movies Viz</title>
+    <link rel="icon" type="image/png" href="/images/imdb_logo.png" />
+    <meta name="description" content="Our first page">
+    <meta name="keywords" content="html tutorial template">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- Fetches the newest D3 version V6 GIVES ERRROR WE NOW USE V5-->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
+    <!-- for the circ bar chart-->
+    <link rel="stylesheet" href="libs/css/index.css">
 </head>
+
 <body>
-    
+
     <script src="./scripts/main.js"></script>
     <script src="./scripts/scatterPlot.js"></script>
     <script src="./scripts/lolliPop.js"></script>
     <script src="./scripts/circBarChart.js"></script>
     <script src="./scripts/searchBar.js"></script>
+    <script src="./scripts/movieInfo.js"></script>
 
 
-<div id="SPandSearch">
-    <!--<div id ="scatterPlot"></div>-->
-    <div id="searchBar">Placeholder
-       <input type="text" id="search_input" onkeyup ="actorListSearch()" placeholder="Skriv någe rå">
-    <!--<div id="tooltip">Movie name: <br> Realeased year: <br> Rating: <br> Synopsis: </div>-->
+
+    <!-- Plot divs -->
+    <div id="plots">
+        <div id="scatterPlot"></div>
+        <div id="lolliSpider">
+            <!-- Lolliplot and spider plot -->
+            <div id="lolli"></div>
+            <div id="spiderChart"></div>
+        </div>
     </div>
-</div>
+    <!-- Main filter div-->
+    <div id="filterInfo">
+        <div id="searchBar">
+             <!-- Search bar and restore button div-->
+            <input type="text" id="search_input" onkeyup="actorListSearch()" placeholder="Filter by actor">
+            <div id="restore">
+                <img src="images/reset.png" width="30px" height="30px">
+                <div id="restoreText">
+                    Restore
+                </div>
+            </div>
 
-<h1>Lollipop Plot 🙈</h1>
-<div id="lolli"></div>
+        </div>
+        <!-- Movieinfo -->
+        <div id="info">
+            <!-- <ul id="movieList"></ul> -->
+        </div>
+    </div>
 
-<h1>Cirucular barplot</h1>
-<div id="circBar"></div>
-
-<!---
-<button onclick="document.getElementById('myImage').src='images/imdb_logo.png'">Toggle poster</button>
-
-<img id="myImage" src="images/imdb_logo.png" style="width:200px">
-
-<button onclick="document.getElementById('myImage').src='images/test2.jpg'">Toggle poster</button>
--->
 
 </body>
+
 </html>
