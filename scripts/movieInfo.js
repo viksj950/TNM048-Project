@@ -51,3 +51,8 @@ function displayMovieInfo(data) {   //generates movie list when scatterplot is c
 
     }
 }
+
+function updateMovieCounter(){
+document.getElementById("movieCount").innerHTML = "Movie count:" + loliIndex; 
+
+}

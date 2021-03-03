@@ -93,4 +93,6 @@ function actorListSearch() {
             liElement[i].style.display = "none";
         }
     }
+
+    
 }

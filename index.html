@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
     <!-- for the circ bar chart-->
     <link rel="stylesheet" href="libs/css/index.css">
+    <!-- <script src="lib/d3/d3.layout.cloud.js"></script>
+    <script src="d3.wordcloud.js"></script> -->
 </head>
 
 <body>
@@ -21,6 +23,7 @@
     <script src="./scripts/circBarChart.js"></script>
     <script src="./scripts/searchBar.js"></script>
     <script src="./scripts/movieInfo.js"></script>
+    <script src="./scripts/populationPyramid.js"></script>
 
 
 
@@ -30,7 +33,7 @@
         <div id="lolliSpider">
             <!-- Lolliplot and spider plot -->
             <div id="lolli"></div>
-            <div id="spiderChart"></div>
+            <div id="populationPyramid"></div>
         </div>
     </div>
     <!-- Main filter div-->
@@ -41,13 +44,15 @@
             <div id="restore">
                 <img src="images/reset.png" width="30px" height="30px">
                 <div id="restoreText">
-                    Restore
+                    Reset
                 </div>
             </div>
 
         </div>
+        <div id="movieCount">Movie Count</div>
         <!-- Movieinfo -->
         <div id="info">
+            
             <!-- <ul id="movieList"></ul> -->
         </div>
     </div>

@@ -122,6 +122,7 @@ function createScatterPlot(data) {
         
         d3.select("#lollipop").remove();
         document.getElementById("lolli").innerHTML = "";
+        updateMovieCounter();
         addLoliData(data);
         createLollipop(loliData);   //Currently global variables
         
@@ -229,6 +230,7 @@ function findMinMax(data, column_name) {
 
     return temp;
 }
+
 //Function that returns all the movies corresponding to the same year and same rating
 function findMovies(data, rating, year) { 
     var overlappingMovies = [];

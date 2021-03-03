@@ -14,14 +14,18 @@ d3.csv("/archive/imdb_top_1000.csv").then(function (data) { //.then makes the fu
     fillList(parsedData);
     createScatterPlot(parsedData);
     createLollipop(top10Data);
-    // redrawPlots(parsedData, "Morgan Freeman");
     var resetButton = document.getElementById("restore");
 
     //Reset plots and info div on click
     resetButton.addEventListener("click", function () { reset(parsedData) });
 
+    var genres = getGenres(parsedData);
+   // console.log(genres);
+
     document.getElementById("info").innerHTML = "<h1 id='infoPlaceholder'>Select movies to view info, please note that movies from 2020 and older movies can miss some data that can corrupt the visualization</h1>";
     document.getElementById("lolli").innerHTML = "<h1 id='lolliPlaceholder'>Select movies for comparison</h1>";
+
+    populationPyramid(top10Data);
 
 });
 
@@ -45,17 +49,18 @@ function parseData(data, floatIndex) {
     return array;
 }
 
+//Function thath fethces the top 20 actors starring in top rated movies
 function findTop10Actors(data) {
 
     var array = [];
 
     for (var i = 0; i < 20; i++) {
         array[i] = data[i];
-        console.log("top 10 actor " + i + " : " + array[i]);
     }
 
     return array;
 }
+
 //Redraws the scatterplot with specified singular actor
 function redrawPlots(data, actor) {
 
@@ -63,8 +68,12 @@ function redrawPlots(data, actor) {
     var filteredData = filterByActor(data, actor);
     createScatterPlot(filteredData);
 
+    var barValue = document.getElementById("search_input"); //Change input of search bar when clicking an actor in list
+    barValue.value = actor;
+
 }
 
+//Function that resets html elements and resets the plots to default
 function reset(data) {
 
     d3.select("svg").remove();
@@ -74,10 +83,25 @@ function reset(data) {
     createScatterPlot(data);
 }
 
-function addLoliData(data){
+//Extracts data for the lollipop plot
+function addLoliData(data) {
 
-    for(var i = 0; i < data.length; i++){
+    for (var i = 0; i < data.length; i++) {
         loliData[loliIndex] = data[i];
-        loliIndex +=1;
+        loliIndex += 1;
     }
+}
+
+//Function to extract genres from the data
+function getGenres(data) {
+    var genres = [];
+    var it = 0;
+
+    for (var i = 0; i < data.length; i++) {
+        if (!(genres.includes(data[i]["Genre"])))
+            genres[it] = data[i].Genre;
+        it++;
+    }
+
+    return genres;
 }
