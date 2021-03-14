@@ -1,8 +1,9 @@
 //searchBar.js: Code that handles actor search and filters the data
 //Authors: Anton Lindskog, William Malteskog, Viktor Sjögren
 
+//Written by us (Main credit goes to William Malteskog)
 function fillList(data) {       //function to fill searchlist with actor names in the html
-    console.log("Called fillList");
+    //console.log("Called fillList");
     var stars = ["Star1", "Star2", "Star3", "Star4"];
     var actors = [];
     var actorIndex = 0;

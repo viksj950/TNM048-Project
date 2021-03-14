@@ -20,36 +20,36 @@
     <script src="./scripts/main.js"></script>
     <script src="./scripts/scatterPlot.js"></script>
     <script src="./scripts/lolliPop.js"></script>
-    <script src="./scripts/circBarChart.js"></script>
     <script src="./scripts/searchBar.js"></script>
     <script src="./scripts/movieInfo.js"></script>
     <script src="./scripts/populationPyramid.js"></script>
 
-
+<!-- Aestheticssssssssss-->
+<div id="rubrik">🔥 TNM048 - Visualization Project 2021 🔥</div>
 
     <!-- Plot divs -->
     <div id="plots">
         <div id="scatterPlot"></div>
-        <div id="lolliSpider">
-            <!-- Lolliplot and spider plot -->
+        <div id="lolliPyramid">
+            <!-- Lolliplot and pyramid plot -->
             <div id="lolli"></div>
-            <div id="populationPyramid"></div>
+            <div id="pyramid"></div>
         </div>
+        
     </div>
     <!-- Main filter div-->
     <div id="filterInfo">
         <div id="searchBar">
              <!-- Search bar and restore button div-->
-            <input type="text" id="search_input" onkeyup="actorListSearch()" placeholder="Filter by actor">
+            <input type="text" id="search_input" style="width: 49%;" onkeyup="actorListSearch()" placeholder="Filter by actor">
             <div id="restore">
-                <img src="images/reset.png" width="30px" height="30px">
+                <img src="images/reset.png" width="40px" height="40px">
                 <div id="restoreText">
                     Reset
                 </div>
             </div>
-
         </div>
-        <div id="movieCount">Movie Count</div>
+        <div id="movieCount"><h4 id="counter">No movies selected</h4> </div>
         <!-- Movieinfo -->
         <div id="info">
             

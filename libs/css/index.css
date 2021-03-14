@@ -1,5 +1,9 @@
+
 body {
   background-color: grey;
+  overflow: hidden;         /*wont create a scrollbar if all cant fit view */
+  color: white;
+  font-family:monospace;
 }
 
 /*--------------------------Scatterplot---------------------------*/
@@ -7,22 +11,26 @@ body {
 #plots {
   background-color: white;
   width: auto; /* 65% */
-  height: 900px;
+  height: 850px;
   float: left;
 }
 
 #scatterPlot {
-  background-color: lightblue;
+  background-color: #313131;
   border-style: solid;
+  border-color: black;
+  font-family:monospace;
 }
 
-.tooltip {
+.scatterTooltip {
   position: absolute;
   font-size: 12px;
   width:  auto;
   height: auto;
   pointer-events: none;
-  background-color: white;
+  color: black;
+  font-family:monospace;
+  margin-top:70px;
 }
 
 .dot:hover {
@@ -33,25 +41,35 @@ body {
 #restore {
   float:right;
   cursor: pointer;
+  margin-top: 20px;
+  margin-right:65px;
 }
 #restoreText {
   position:left;
   margin-right:20px;
 }
 
-#lolliSpider {
-  background-color: lightgray;
+#emergency {
+  float:right;
+  margin:-80px;
+  margin-top:30%;
+  cursor:pointer;
+}
+
+#lolliPyramid {
+  background-color: white;
   height: 400px;
   width: 1410px;
   float: left;
 }
 
 #lolli {
-  background-color: lightpink;
+  background-color: #414141;
   height: 100%;
   width: 65%;
   border-style: solid;
   border-top: hidden;
+  border-color: black;
   float: left;
 }
 
@@ -61,17 +79,58 @@ body {
   width:  auto;
   height: auto;
   pointer-events: none;
-  background-color: white;
   margin-top:515px;
+  color: black;
 }
 
-#spiderChart {
-  background-color: lightsalmon;
+#pyramid {
+  background-color: #525252;
   height: 100%;
-  width: 34%;
+  width: 34.35%;
   border-style: solid;
   border-top: hidden;
-  float: right;
+  float: left; 
+  border-left: hidden;
+  border-color: black;
+  font-family:monospace;
+}
+
+.pyramidTooltip {
+  position: absolute;
+  font-size: 12px;
+  width:  auto;
+  height: auto;
+  pointer-events: none;
+  margin-top:515px;
+  color: black;
+}
+
+.bar.left {
+  fill: #334A52;
+  height:14px;
+}
+
+.bar.right {
+  fill: #ca3e47;
+  height:14px;
+}
+
+#lolliPlaceholder {
+font-family:monospace;
+text-align: center;
+vertical-align: middle;
+}
+
+#pyramidPlaceholder {
+  font-family:monospace;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#infoPlaceholder {
+  font-family:monospace;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /*--------------------------Searchbar---------------------------*/
@@ -80,41 +139,52 @@ body {
   background-color: black;
   float: right;
   width: 25%;
-  height: 900px;
+  height: 860px;
 }
 
 #searchBar {
-  background-color: limegreen;
+  background-color: #334A52;
   border-style: solid;
+  border-color: black;
   float: right;
   width: 100%;
   height: 25%;
+  font-family:monospace;
 }
 
 #search_input{
-  width: 20px;
-
+  margin-left: 20px;
+  margin-top: 20px;
+  font-family:monospace;
+  padding: 3px;
+  border: none;
+  
+  
+  font-size: 17px;
 }
+
 #actorList_div{           /*Created with js in searchBar.js*/
-  height: 70%;
+  height: 71%;
   width: 50%;
   overflow: scroll;
   overflow-x: hidden;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 0px;
-  margin-left: 0px;
+  margin-left: 20px;
 }
 
 #info {
-  background-color: yellow;
+  background-color: #ca3e47;   /*#ca3e47 is redish*/
   border-style: solid;
   border-top: hidden;
+  border-color: black;
   float: right;
   width: 100%;
-  height: 75%;
+  height: 71%;
   overflow: scroll;
   overflow-x: hidden;
+  font-family:monospace;
 }
 
 #actorList{               /*Created with js in searchBar.js*/
@@ -124,7 +194,8 @@ body {
   margin-right: 0px;
   margin-left: 0px;
   padding-left: 0px;
- 
+  font-family:monospace;
+  
 }
 
 #actorList ul{               /*Created with js in searchBar.js*/
@@ -133,16 +204,15 @@ body {
   margin-right: 0px;
   margin-left: 0px;
   padding-left: 0px;
-  
 }
 
 #actorList li{
   border: 1px solid #ddd; 
   margin-top: -1px; /* Prevent double borders */
   margin-left: 0px;
-  background-color: #f6f6f6;
-  font-size: 18px; /* Increase the font-size */
   color: black; /* Add a black text color */
+  background-color: lightgrey;
+  font-size: 18px; /* Increase the font-size */ 
   display: block; /* Make it into a block element to fill the whole list */
   cursor: pointer;
 }
@@ -153,4 +223,40 @@ body {
 
 #actor_list_seach{
   list-style-type: none;
+}
+
+#movieCount{
+  background-color:black;
+  border-left:solid;
+  border-bottom:solid;
+  border-right:solid;
+  border-color: black;
+  width:100%;
+  float: right;
+}
+
+#counter {
+  margin:5px;
+  font-family:monospace;
+}
+
+#rubrik {
+  text-align: center;
+  font-size:30px;
+  font-family:monospace;
+  color: white;
+  text-shadow: 1px 1px 2px black, 0 0 25px #ca3e47, 0 0 5px #ca3e47;
+  margin-bottom:10px;
+}
+
+#nodataGross {
+
+  color: black;
+  text-decoration: line-through;
+}
+
+#nodataMeta {
+
+  color: black;
+  text-decoration: line-through;
 }

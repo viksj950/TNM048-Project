@@ -1,24 +1,25 @@
 //lolliPop.js: Code that creates a lollipop graph
 //Authors: Anton Lindskog, William Malteskog, Viktor Sjögren
 
-//COPIED STRAIGHT, slight modification 
-function createLollipop(data) { //nNot finished will be for top 10 actors in the topp 100 set
+//Originally copied from: https://www.d3-graph-gallery.com/graph/lollipop_basic.html
+//However since then changed and modified and built upon to work for our data and goals.
+function createLollipop(data) { 
 
   // set the dimensions and margins of the graph
-  var loliMargin = { top: 30, right: 10, bottom: 200, left: 80 },
-    width = 900 - loliMargin.left - loliMargin.right,
-    height = 500 - loliMargin.top - loliMargin.bottom;
+  var margin = { top: 30, right: 10, bottom: 200, left: 100 },
+    width = 900 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#lolli")
     .append("svg")
-    .attr("width", width + loliMargin.left + loliMargin.right)
-    .attr("height", height + loliMargin.top + loliMargin.bottom)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
     .attr("id", "lollipop")
     .append("g")
-    .attr("transform", "translate(" + loliMargin.left + "," + loliMargin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var lolliHoverTooltip = d3.select("#lolli")
+  var tooltip = d3.select("#lolli")
     .append("div")
     .attr("class", "lolliTooltip")
     .style("opacity", 0)
@@ -29,23 +30,23 @@ function createLollipop(data) { //nNot finished will be for top 10 actors in the
     .style("padding", "5px")
 
   var mouseover = function (d) {
-    lolliHoverTooltip.style("opacity", 1) //set to full visibility
+    tooltip.style("opacity", 1) //set to full visibility
   }
 
   var mousemove = function (d) { //, overlappingMovies
 
-    var toolTipText = "Gross: " + d.Gross;
+    var toolTipText = "Gross ($): " + d.Gross;
 
-    lolliHoverTooltip.html(toolTipText)
+    tooltip.html(toolTipText)
       .style("left", (d3.mouse(d3.event.currentTarget)[0] + 100) + "px") //d3.mouse(this) does not work, because "this" is an instance
       .style("top", (d3.mouse(d3.event.currentTarget)[1]) + "px")
     d3.select(d3.event.currentTarget).attr('r', 10);
   }
 
   var mouseleave = function (d) {
-    lolliHoverTooltip.html("")
+    tooltip.html("")
     d3.select(d3.event.currentTarget).attr('r', 5)
-    lolliHoverTooltip.style("opacity", 0) //make invisible
+    tooltip.style("opacity", 0) //make invisible
   }
 
   // Add x axis
@@ -69,6 +70,15 @@ function createLollipop(data) { //nNot finished will be for top 10 actors in the
   svg.append("g")
     .call(d3.axisLeft(y));
 
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 5 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("fill", "white")
+    .text("Gross ($)");
+
   // Lines
   svg.selectAll("myline")
     .data(data)
@@ -78,7 +88,7 @@ function createLollipop(data) { //nNot finished will be for top 10 actors in the
     .attr("x2", function (d) { return x(d.Series_Title); })
     .attr("y1", function (d) { return y(d.Gross); })
     .attr("y2", y(0))
-    .attr("stroke", "green") //Maskros
+    .attr("stroke", "steelblue")
 
   // Circles
   svg.selectAll("mycircle")
@@ -89,7 +99,7 @@ function createLollipop(data) { //nNot finished will be for top 10 actors in the
     .attr("cy", function (d) { return y(d.Gross); })
     .attr("r", "5")
     .attr("stroke", "black")
-    .style("fill", "#FFD488")
+    .style("fill", "#ca3e47")
     .on("mouseover", mouseover) //{ overlappingMovies = mouseover(d, data); return overlappingMovies}
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
